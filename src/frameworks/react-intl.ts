@@ -21,11 +21,11 @@ class ReactFramework extends Framework {
 
   // for visualize the regex, you can use https://regexper.com/
   usageMatchRegex = [
-    // Support id="xxx", id='xxx', id={`xxx`}, id={'xxx'}, id={"xxx"}
-    // 1. id="xxx" or id='xxx' or id=`xxx`
-    '[^\\w\\d](?:i18nKey=|FormattedMessage[ (]\\s*id=|t\\(\\s*)[\'"`]({key})[\'"`]',
-    // 2. TSX/JSX attribute id={'xxx.xxx'} or id="xxx.xxx"
-    'id\\s*=\\s*(?:\\{\\s*)?[\'"]([a-zA-Z0-9_.\\-]+)[\'"]\\s*\\}?',
+    // Support for i18nKey= and t( calls, key supports single, double, and back quotes
+    '[^\\w\\d](?:i18nKey=|t\\(\\s*)[\'"`]({key})[\'"`]',
+    // Since <FormattedMessage ... id=... /> may have multiple attributes and line breaks, handle it separately
+    // Allow attribute line breaks and whitespace, support id="xxx.xxx", id={'xxx.xxx'}, etc.
+    '<FormattedMessage[\\s\\S]*?id=\\s*\\{?\\s*[\'"`]([a-zA-Z0-9_.\\-]+)[\'"`]\\s*\\}?',
     // useIntl() hooks, https://github.com/formatjs/react-intl/blob/master/docs/API.md#useintl-hook
     '[^\\w\\d](?:formatPlural|formatNumber|formatDate|formatTime|formatHTMLMessage|formatMessage|formatRelativeTime)\\(.*?[\'"`]?id[\'"`]?:\\s*[\'"`]({key})[\'"`]',
     '<Trans>({key})<\\/Trans>',
