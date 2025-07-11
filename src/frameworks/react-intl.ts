@@ -7,7 +7,7 @@ class ReactFramework extends Framework {
 
   detection= {
     packageJSON: [
-      'react-intl'
+      'react-intl',
     ],
   }
 
@@ -21,8 +21,11 @@ class ReactFramework extends Framework {
 
   // for visualize the regex, you can use https://regexper.com/
   usageMatchRegex = [
-    // general jsx attrs
+    // 支持 id="xxx"、id='xxx'、id={`xxx`}、id={'xxx'}、id={"xxx"}
+    // 1. id="xxx" 或 id='xxx' 或 id=`xxx`
     '[^\\w\\d](?:i18nKey=|FormattedMessage[ (]\\s*id=|t\\(\\s*)[\'"`]({key})[\'"`]',
+    // 2. TSX/JSX属性 id={'xxx.xxx'} 或 id="xxx.xxx"
+    'id\\s*=\\s*(?:\\{\\s*)?[\'"]([a-zA-Z0-9_.\\-]+)[\'"]\\s*\\}?',
     // useIntl() hooks, https://github.com/formatjs/react-intl/blob/master/docs/API.md#useintl-hook
     '[^\\w\\d](?:formatPlural|formatNumber|formatDate|formatTime|formatHTMLMessage|formatMessage|formatRelativeTime)\\(.*?[\'"`]?id[\'"`]?:\\s*[\'"`]({key})[\'"`]',
     '<Trans>({key})<\\/Trans>',
