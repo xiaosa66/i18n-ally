@@ -6,4 +6,7 @@ module.exports = {
     mocha: true,
   },
   extends: '@antfu',
+  rules: {
+    'no-console': 'off',
+  },
 }
