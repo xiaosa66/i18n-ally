@@ -8,21 +8,21 @@ export class BCP47 extends BaseTagSystem {
     if (!locale)
       return fallback
 
-    // 先用 bcp47 解析
+    // First, parse with bcp47
     const parsed = bcp47.parse(locale, { normalize: strict, forgiving: !strict })
-    // 如果解析后有 region，或解析后 language+region 能还原原始 locale，则用 stringify
+    // If the parsed result has a region, or language+region can restore the original locale, use stringify
     if (parsed && parsed.language) {
       if (parsed.region)
         return bcp47.stringify(parsed)
-      // 兼容 zh_CN、zh_TW、en_US 等下划线写法
+        // Compatible with underscore formats like zh_CN, zh_TW, en_US
       if (locale.match(/^[a-z]{2,3}[_-][A-Z]{2,4}$/)) {
-        // 统一转为 BCP47 标准格式 zh-CN
+        // Convert to standard BCP47 format zh-CN
         return locale.replace('_', '-')
       }
-      // 兼容只有主语言的情况
+      // Compatible with cases where only the main language is present
       return parsed.language
     }
-    // 解析失败，直接返回原 locale
+    // If parsing fails, return the original locale directly
     return locale || fallback
   }
 
