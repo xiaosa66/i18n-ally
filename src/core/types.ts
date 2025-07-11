@@ -111,7 +111,6 @@ export interface ParserOptions {
 }
 
 export interface KeyInDocument {
-  range: number
   start: number
   end: number
   key: string
